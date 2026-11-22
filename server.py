@@ -40,7 +40,19 @@ SEARCH_HEADERS = {
 }
 
 STOP_WORDS = {"de", "da", "do", "das", "dos", "e", "em", "com", "para", "por", "a", "o", "na", "no"}
-ACCESSORY_WORDS = ("case", "gaveta", "adaptador", "capa", "capinha", "pelicula", "suporte", "cabo")
+ACCESSORY_WORDS = (
+    "case", "gaveta", "adaptador", "capa", "capinha", "pelicula",
+    "suporte", "cabo", "filtro de privacidade",
+)
+COMPONENT_TOKENS = {
+    "ssd", "hd", "nvme", "m2", "ram", "ddr4", "ddr5", "memoria", "processador",
+    "cpu", "gpu", "rtx", "gtx", "rx", "placa", "fonte", "cooler", "watercooler",
+    "gabinete", "monitor", "teclado", "mouse", "headset", "webcam",
+}
+SYSTEM_WORDS = (
+    "computador", "pc gamer", "pc home", "pc completo", "desktop",
+    "notebook", "laptop", "all in one", "workstation", "servidor", "kit upgrade",
+)
 TRUSTED_KABUM_SELLERS = {"kabum!", "terabyte", "pichau"}
 
 CATEGORY_HINTS: dict[str, dict[str, tuple[str, ...]]] = {
@@ -101,10 +113,11 @@ CATEGORY_HINTS: dict[str, dict[str, tuple[str, ...]]] = {
 
 
 def _normalize_text(text: str) -> str:
-    """Remove accents and punctuation for resilient keyword matching."""
+    """Remove accents, punctuation, and split joined word+number tokens (e.g. ssd240gb -> ssd 240gb)."""
     nfkd = unicodedata.normalize("NFKD", text.lower())
     ascii_only = "".join(ch for ch in nfkd if not unicodedata.combining(ch))
-    return re.sub(r"[^a-z0-9]+", " ", ascii_only).strip()
+    spaced = re.sub(r"([a-z])(\d)", r"\1 \2", ascii_only)
+    return re.sub(r"[^a-z0-9]+", " ", spaced).strip()
 
 
 def _query_tokens(query: str) -> list[str]:
@@ -130,6 +143,11 @@ def _score_match(title: str, query: str, category: str = "") -> int:
     tokens = _query_tokens(query)
     if not tokens:
         return 1
+
+    # When searching for a standalone hardware/peripheral component, reject whole PCs/notebooks
+    if any(t in COMPONENT_TOKENS for t in tokens) and not any(sw in norm_query for sw in SYSTEM_WORDS):
+        if any(sw in norm_title for sw in SYSTEM_WORDS):
+            return 0
 
     title_words = set(norm_title.split())
     for tok in tokens:
@@ -182,11 +200,12 @@ def _fetch_html(url: str, timeout: int = 10) -> str:
 
 
 def _build_search_query(query: str, category: str) -> str:
-    """Append category hint when helpful and not already present in query."""
+    """Normalize joined tokens (e.g. ssd240gb -> ssd 240gb) and append category hint if helpful."""
+    cleaned = re.sub(r"([a-zA-Z])(\d)", r"\1 \2", query).strip()
     hint = _category_config(category).get("search_hint", "")
-    if isinstance(hint, str) and hint and hint not in _normalize_text(query):
-        return f"{query} {hint}".strip()
-    return query
+    if isinstance(hint, str) and hint and hint not in _normalize_text(cleaned):
+        return f"{cleaned} {hint}".strip()
+    return cleaned
 
 
 def _search_kabum(query: str, category: str = "") -> list[dict]:
@@ -246,14 +265,15 @@ def _search_kabum(query: str, category: str = "") -> list[dict]:
 
 
 def _search_zoom(query: str, category: str = "") -> list[dict]:
-    """Query Zoom price comparator for direct partner store offers."""
+    """Query Zoom sorted by lowest price, preferring canonical product pages and non-Magalu stores."""
     search_q = _build_search_query(query, category)
-    url = f"https://www.zoom.com.br/search?q={urllib.parse.quote(search_q)}"
+    url = f"https://www.zoom.com.br/search?q={urllib.parse.quote(search_q)}&sortBy=price_asc"
     html_text = _fetch_html(url)
     parts = html_text.split("<article ")
     offers: list[dict] = []
+    seen_pairs: set[tuple[str, float]] = set()
 
-    for part in parts[1:25]:
+    for part in parts[1:35]:
         href_m = re.search(r'href="([^"]+)"', part)
         name_m = re.search(r'data-testid="product-card::name"[^>]*>(.*?)</', part, re.S)
         price_m = re.search(r'data-testid="product-card::price"[^>]*>.*?<strong>(.*?)</strong>', part, re.S)
@@ -282,9 +302,21 @@ def _search_zoom(query: str, category: str = "") -> list[dict]:
             cashback = re.sub(r"\s+", " ", html_lib.unescape(cashback)).strip()
 
         raw_href = html_lib.unescape(href_m.group(1))
-        full_url = raw_href if raw_href.startswith("http") else f"https://www.zoom.com.br{raw_href}"
-        store_label = f"{merchant} (via Zoom)" if merchant else "Zoom"
+        is_lead = "/lead?" in raw_href
+        if is_lead:
+            full_url = raw_href if raw_href.startswith("http") else f"https://www.zoom.com.br{raw_href}"
+            store_label = f"{merchant} (via Zoom)" if merchant else "Zoom"
+        else:
+            clean_path = raw_href.split("?", 1)[0]
+            full_url = clean_path if clean_path.startswith("http") else f"https://www.zoom.com.br{clean_path}"
+            store_label = "Zoom (Comparador)"
 
+        pair_key = (store_label, round(price, 2))
+        if pair_key in seen_pairs:
+            continue
+        seen_pairs.add(pair_key)
+
+        is_magalu_lead = is_lead and "magazine luiza" in merchant.lower()
         offers.append({
             "store": store_label,
             "price": round(price, 2),
@@ -295,12 +327,17 @@ def _search_zoom(query: str, category: str = "") -> list[dict]:
             "url": full_url,
             "notes": title,
             "_score": score,
+            "_magalu_lead": is_magalu_lead,
         })
 
-    offers.sort(key=lambda o: (o["_score"] < 100, o["price"]))
-    for o in offers:
+    # Prefer Zoom canonical pages and Amazon/KaBuM leads; cap stale-prone Magalu leads to at most 2
+    preferred = sorted([o for o in offers if not o["_magalu_lead"]], key=lambda o: (o["_score"] < 100, o["price"]))
+    magalu_only = sorted([o for o in offers if o["_magalu_lead"]], key=lambda o: (o["_score"] < 100, o["price"]))
+    combined = preferred[:4] + magalu_only[:2]
+    for o in combined:
         o.pop("_score", None)
-    return offers[:4]
+        o.pop("_magalu_lead", None)
+    return combined
 
 
 def _search_carrefour(query: str, category: str = "") -> list[dict]:
@@ -462,13 +499,25 @@ def _search_offers(query: str, category: str = "", max_offers: int = 6) -> dict:
             except Exception as exc:
                 errors.append(f"{name}: {exc}")
 
-    direct_offers = [o for o in all_offers if "(via Zoom)" not in o["store"] and o["store"] != "Zoom"]
-    zoom_offers = [o for o in all_offers if o not in direct_offers]
+    # Rank reliable offers (direct stores + Zoom canonical/Amazon/KaBuM) ahead of stale-prone Magalu leads
+    reliable = [o for o in all_offers if "Magazine Luiza (via Zoom)" not in o["store"]]
+    magalu_leads = [o for o in all_offers if "Magazine Luiza (via Zoom)" in o["store"]]
 
-    # Prefer direct store product links (KaBuM!, Carrefour, Kalunga); use Zoom only as fallback when < 2 direct offers
-    ordered = sorted(direct_offers, key=lambda o: o["price"])
-    if len(ordered) < 2:
-        ordered.extend(sorted(zoom_offers, key=lambda o: o["price"]))
+    reliable.sort(key=lambda o: o["price"])
+    magalu_leads.sort(key=lambda o: o["price"])
+
+    # Drop extreme price outliers (> 2.3x cheapest offer) when cheaper real offers exist
+    reference_prices = [o["price"] for o in reliable] or [o["price"] for o in magalu_leads]
+    if reference_prices:
+        cheapest = min(reference_prices)
+        max_reasonable = cheapest * 2.3
+        reliable = [o for o in reliable if o["price"] <= max_reasonable]
+        magalu_leads = [o for o in magalu_leads if o["price"] <= max_reasonable]
+
+    # Prefer reliable offers; append up to 2 Magalu leads only when reliable offers are scarce (< 3)
+    ordered = list(reliable)
+    if len(ordered) < 3:
+        ordered.extend(magalu_leads[: max(1, 3 - len(ordered))])
 
     seen: set[str] = set()
     deduped: list[dict] = []
