@@ -391,12 +391,60 @@ def _search_kalunga(query: str, category: str = "") -> list[dict]:
     return offers[:4]
 
 
+def _search_dafiti(query: str, category: str = "") -> list[dict]:
+    """Query Dafiti Brasil for fashion, footwear, and beauty products."""
+    search_q = _build_search_query(query, category)
+    url = f"https://www.dafiti.com.br/catalog/?q={urllib.parse.quote(search_q)}"
+    html_text = _fetch_html(url)
+    parts = html_text.split('class="product-box"')
+    offers: list[dict] = []
+
+    for part in parts[1:25]:
+        href_m = re.search(r'href="(https://www\.dafiti\.com\.br/[^"]+\.html)"', part)
+        title_m = re.search(r'<p class="product-box-title"[^>]*>(.*?)</p>', part, re.S)
+        price_m = re.search(r'class="product-box-price-to"[^>]*>\s*R\$\s*([\d.,]+)', part)
+        if not price_m:
+            price_m = re.search(r'class="product-box-price"[^>]*>.*?R\$\s*([\d.,]+)', part, re.S)
+        if not (href_m and title_m and price_m):
+            continue
+
+        title = re.sub(r"\s+", " ", html_lib.unescape(title_m.group(1))).strip()
+        score = _score_match(title, query, category)
+        if score <= 0:
+            continue
+
+        price = _parse_brl_price(price_m.group(1))
+        if price is None:
+            continue
+
+        from_m = re.search(r'class="product-box-price-from"[^>]*>\s*R\$\s*([\d.,]+)', part)
+        orig_price = _parse_brl_price(from_m.group(1)) if from_m else None
+
+        offers.append({
+            "store": "Dafiti",
+            "price": round(price, 2),
+            "originalPrice": round(orig_price, 2) if orig_price and orig_price > price else None,
+            "coupon": "",
+            "cashback": "",
+            "shipping": "Grátis acima de R$ 199,90",
+            "url": html_lib.unescape(href_m.group(1)),
+            "notes": title,
+            "_score": score,
+        })
+
+    offers.sort(key=lambda o: (o["_score"] < 100, o["price"]))
+    for o in offers:
+        o.pop("_score", None)
+    return offers[:4]
+
+
 def _search_offers(query: str, category: str = "", max_offers: int = 6) -> dict:
     """Run store searches in parallel and return deduplicated, price-sorted offers."""
     providers = [
         ("KaBuM!", _search_kabum),
         ("Carrefour", _search_carrefour),
         ("Kalunga", _search_kalunga),
+        ("Dafiti", _search_dafiti),
         ("Zoom", _search_zoom),
     ]
     all_offers: list[dict] = []
