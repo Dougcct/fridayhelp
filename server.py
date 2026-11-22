@@ -303,6 +303,10 @@ def _search_zoom(query: str, category: str = "") -> list[dict]:
 
         raw_href = html_lib.unescape(href_m.group(1))
         is_lead = "/lead?" in raw_href
+        # Drop Magazine Luiza /lead ads because they frequently redirect to expired 404 ("Oops!") pages
+        if is_lead and "magazine luiza" in merchant.lower():
+            continue
+
         if is_lead:
             full_url = raw_href if raw_href.startswith("http") else f"https://www.zoom.com.br{raw_href}"
             store_label = f"{merchant} (via Zoom)" if merchant else "Zoom"
@@ -316,7 +320,6 @@ def _search_zoom(query: str, category: str = "") -> list[dict]:
             continue
         seen_pairs.add(pair_key)
 
-        is_magalu_lead = is_lead and "magazine luiza" in merchant.lower()
         offers.append({
             "store": store_label,
             "price": round(price, 2),
@@ -327,17 +330,12 @@ def _search_zoom(query: str, category: str = "") -> list[dict]:
             "url": full_url,
             "notes": title,
             "_score": score,
-            "_magalu_lead": is_magalu_lead,
         })
 
-    # Prefer Zoom canonical pages and Amazon/KaBuM leads; cap stale-prone Magalu leads to at most 2
-    preferred = sorted([o for o in offers if not o["_magalu_lead"]], key=lambda o: (o["_score"] < 100, o["price"]))
-    magalu_only = sorted([o for o in offers if o["_magalu_lead"]], key=lambda o: (o["_score"] < 100, o["price"]))
-    combined = preferred[:4] + magalu_only[:2]
-    for o in combined:
+    offers.sort(key=lambda o: (o["_score"] < 100, o["price"]))
+    for o in offers:
         o.pop("_score", None)
-        o.pop("_magalu_lead", None)
-    return combined
+    return offers[:4]
 
 
 def _search_carrefour(query: str, category: str = "") -> list[dict]:
@@ -499,25 +497,12 @@ def _search_offers(query: str, category: str = "", max_offers: int = 6) -> dict:
             except Exception as exc:
                 errors.append(f"{name}: {exc}")
 
-    # Rank reliable offers (direct stores + Zoom canonical/Amazon/KaBuM) ahead of stale-prone Magalu leads
-    reliable = [o for o in all_offers if "Magazine Luiza (via Zoom)" not in o["store"]]
-    magalu_leads = [o for o in all_offers if "Magazine Luiza (via Zoom)" in o["store"]]
-
-    reliable.sort(key=lambda o: o["price"])
-    magalu_leads.sort(key=lambda o: o["price"])
+    ordered = sorted(all_offers, key=lambda o: o["price"])
 
     # Drop extreme price outliers (> 2.3x cheapest offer) when cheaper real offers exist
-    reference_prices = [o["price"] for o in reliable] or [o["price"] for o in magalu_leads]
-    if reference_prices:
-        cheapest = min(reference_prices)
-        max_reasonable = cheapest * 2.3
-        reliable = [o for o in reliable if o["price"] <= max_reasonable]
-        magalu_leads = [o for o in magalu_leads if o["price"] <= max_reasonable]
-
-    # Prefer reliable offers; append up to 2 Magalu leads only when reliable offers are scarce (< 3)
-    ordered = list(reliable)
-    if len(ordered) < 3:
-        ordered.extend(magalu_leads[: max(1, 3 - len(ordered))])
+    if len(ordered) >= 2:
+        max_reasonable = ordered[0]["price"] * 2.3
+        ordered = [o for o in ordered if o["price"] <= max_reasonable]
 
     seen: set[str] = set()
     deduped: list[dict] = []
