@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Black Friday Tracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <span class="brand-badge">BF</span>
+        <div>
+          <h1>Black Friday Tracker</h1>
+          <p class="subtitle">Organizador de compras, ofertas e histórico de preços</p>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <span id="syncStatus" class="sync-pill sync-offline" title="Status de persistência">Carregando...</span>
+        <span id="userBadge" class="sync-pill" hidden></span>
+        <button id="btnAuth" class="btn btn-secondary" type="button" hidden>Entrar</button>
+        <button id="btnLogout" class="btn btn-secondary" type="button" hidden>Sair</button>
+        <button id="btnExport" class="btn btn-secondary" type="button">Exportar JSON</button>
+        <label class="btn btn-secondary file-label">
+          Importar JSON
+          <input id="inputImport" type="file" accept="application/json" hidden />
+        </label>
+        <button id="btnNewItem" class="btn btn-primary" type="button">+ Novo Item</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Resumo / KPIs -->
+    <section class="kpi-grid" aria-label="Resumo financeiro">
+      <article class="kpi-card">
+        <span class="kpi-label">Orçamento Alvo (Ativos)</span>
+        <strong id="kpiTargetTotal" class="kpi-value">R$ 0,00</strong>
+        <span id="kpiItemCount" class="kpi-sub">0 itens monitorados</span>
+      </article>
+      <article class="kpi-card">
+        <span class="kpi-label">Melhor Soma Atual</span>
+        <strong id="kpiBestTotal" class="kpi-value">R$ 0,00</strong>
+        <span id="kpiOffersCount" class="kpi-sub">0 ofertas registradas</span>
+      </article>
+      <article class="kpi-card">
+        <span class="kpi-label">Economia vs. Preço Cheio</span>
+        <strong id="kpiSavings" class="kpi-value text-success">R$ 0,00</strong>
+        <span class="kpi-sub">Baseado nas melhores ofertas</span>
+      </article>
+      <article class="kpi-card">
+        <span class="kpi-label">Metas &amp; Compras</span>
+        <strong id="kpiGoals" class="kpi-value text-accent">0 / 0</strong>
+        <span id="kpiPurchased" class="kpi-sub">0 comprados</span>
+      </article>
+    </section>
+
+    <!-- Navegação por abas -->
+    <nav class="tabs" aria-label="Seções">
+      <button class="tab-btn active" data-tab="items" type="button">Produtos &amp; Ofertas</button>
+      <button class="tab-btn" data-tab="history" type="button">Histórico de Atividades</button>
+    </nav>
+
+    <!-- Aba: Produtos -->
+    <section id="tab-items" class="tab-panel active">
+      <div class="filters-bar">
+        <input id="filterSearch" type="search" placeholder="Buscar produto, loja ou observação..." />
+        <select id="filterCategory">
+          <option value="all">Todas as categorias</option>
+        </select>
+        <select id="filterStatus">
+          <option value="all">Todos os status</option>
+          <option value="Monitorando">Monitorando</option>
+          <option value="Meta atingida">Meta atingida</option>
+          <option value="Comprado">Comprado</option>
+          <option value="Descartado">Descartado</option>
+        </select>
+        <select id="filterPriority">
+          <option value="all">Todas prioridades</option>
+          <option value="Alta">Alta</option>
+          <option value="Média">Média</option>
+          <option value="Baixa">Baixa</option>
+        </select>
+        <select id="sortBy">
+          <option value="priority">Ordenar: Prioridade</option>
+          <option value="bestPriceAsc">Menor melhor preço</option>
+          <option value="discountDesc">Maior desconto %</option>
+          <option value="nameAsc">Nome (A-Z)</option>
+        </select>
+      </div>
+
+      <div id="categoryPills" class="category-pills" aria-label="Filtro rápido por categoria"></div>
+
+      <div id="itemsList" class="items-list"></div>
+    </section>
+
+    <!-- Aba: Histórico -->
+    <section id="tab-history" class="tab-panel">
+      <div class="history-header">
+        <h2>Linha do Tempo</h2>
+        <button id="btnClearHistory" class="btn btn-secondary btn-sm" type="button">Limpar histórico</button>
+      </div>
+      <div id="historyList" class="history-list"></div>
+    </section>
+  </main>
+
+  <!-- Modal: Novo / Editar Item -->
+  <dialog id="itemModal" class="modal">
+    <form id="itemForm" method="dialog" class="modal-content">
+      <div class="modal-header">
+        <h2 id="itemModalTitle">Novo Item</h2>
+        <button type="button" class="icon-btn" data-close-modal="itemModal" aria-label="Fechar">&times;</button>
+      </div>
+      <input type="hidden" id="itemId" />
+      <div class="form-grid">
+        <label class="full">
+          Nome do Produto *
+          <input id="itemName" type="text" required placeholder="Ex: SSD NVMe 1TB Kingston" />
+        </label>
+        <label>
+          Categoria
+          <input id="itemCategory" type="text" list="categorySuggestions" placeholder="Ex: Hardware, Áudio &amp; Som" />
+          <datalist id="categorySuggestions">
+            <option value="Hardware"></option>
+            <option value="Periféricos"></option>
+            <option value="Notebooks &amp; PCs"></option>
+            <option value="Celulares &amp; Tablets"></option>
+            <option value="TV &amp; Vídeo"></option>
+            <option value="Áudio &amp; Som"></option>
+            <option value="Som Automotivo"></option>
+            <option value="Games"></option>
+            <option value="Eletrônicos"></option>
+            <option value="Casa &amp; Eletrodomésticos"></option>
+            <option value="Ferramentas"></option>
+            <option value="Automotivo"></option>
+            <option value="Moda &amp; Beleza"></option>
+            <option value="Esporte &amp; Lazer"></option>
+            <option value="Outros"></option>
+          </datalist>
+        </label>
+        <label>
+          Prioridade
+          <select id="itemPriority">
+            <option value="Alta">Alta</option>
+            <option value="Média" selected>Média</option>
+            <option value="Baixa">Baixa</option>
+          </select>
+        </label>
+        <label>
+          Preço-Alvo (R$) *
+          <input id="itemTargetPrice" type="number" step="0.01" min="0" required placeholder="0.00" />
+        </label>
+        <label>
+          Status
+          <select id="itemStatus">
+            <option value="Monitorando">Monitorando</option>
+            <option value="Meta atingida">Meta atingida</option>
+            <option value="Comprado">Comprado</option>
+            <option value="Descartado">Descartado</option>
+          </select>
+        </label>
+        <label class="full">
+          Observações / Especificações mínimas
+          <textarea id="itemNotes" rows="3" placeholder="Ex: Mínimo 16GB RAM, preferência por loja oficial..."></textarea>
+        </label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal="itemModal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Salvar Item</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Modal: Registrar Oferta -->
+  <dialog id="offerModal" class="modal">
+    <form id="offerForm" method="dialog" class="modal-content">
+      <div class="modal-header">
+        <h2 id="offerModalTitle">Registrar Oferta</h2>
+        <button type="button" class="icon-btn" data-close-modal="offerModal" aria-label="Fechar">&times;</button>
+      </div>
+      <input type="hidden" id="offerItemId" />
+      <div class="form-grid">
+        <label>
+          Loja *
+          <input id="offerStore" type="text" required placeholder="Ex: Amazon, Mercado Livre, Kabum" />
+        </label>
+        <label>
+          Preço Atual (R$) *
+          <input id="offerPrice" type="number" step="0.01" min="0" required placeholder="0.00" />
+        </label>
+        <label>
+          Preço "De" / Original (R$)
+          <input id="offerOriginalPrice" type="number" step="0.01" min="0" placeholder="Opcional" />
+        </label>
+        <label>
+          Cupom
+          <input id="offerCoupon" type="text" placeholder="Ex: BLACK10" />
+        </label>
+        <label>
+          Cashback
+          <input id="offerCashback" type="text" placeholder="Ex: 5% Inter / Méliuz" />
+        </label>
+        <label>
+          Frete
+          <input id="offerShipping" type="text" placeholder="Ex: Grátis / R$ 19,90" />
+        </label>
+        <label class="full">
+          Link da Oferta
+          <input id="offerUrl" type="url" placeholder="https://..." />
+        </label>
+        <label class="full">
+          Observação
+          <input id="offerNotes" type="text" placeholder="Ex: À vista no Pix, vendedor oficial..." />
+        </label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal="offerModal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Adicionar Oferta</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Modal: Login / Cadastro (Supabase) -->
+  <dialog id="authModal" class="modal">
+    <form id="authForm" method="dialog" class="modal-content">
+      <div class="modal-header">
+        <h2 id="authModalTitle">Entrar na sua conta</h2>
+        <button type="button" class="icon-btn" data-close-modal="authModal" aria-label="Fechar">&times;</button>
+      </div>
+      <div class="form-grid">
+        <label class="full">
+          E-mail *
+          <input id="authEmail" type="email" required placeholder="seu@email.com" />
+        </label>
+        <label class="full">
+          Senha (mín. 6 caracteres) *
+          <input id="authPassword" type="password" minlength="6" required placeholder="••••••" />
+        </label>
+      </div>
+      <p id="authFeedback" class="item-notes"></p>
+      <div class="modal-footer">
+        <button id="btnAuthSignup" type="button" class="btn btn-secondary">Criar conta</button>
+        <button type="submit" class="btn btn-primary">Entrar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

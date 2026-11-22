@@ -1,0 +1,12 @@
+.env
+__pycache__/
+*.py[cod]
+*$py.class
+.git/
+.gitignore
+.vscode/
+.DS_Store
+iniciar.bat
+README.md
+compose.yaml
+Dockerfile

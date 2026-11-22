@@ -1,0 +1,563 @@
+{
+  "meta": {
+    "title": "Black Friday Tracker 2026",
+    "updatedAt": "2026-11-22T17:18:01.642Z",
+    "currency": "BRL"
+  },
+  "items": [
+    {
+      "id": "item-1795367809794-31odf",
+      "name": "Caixa de som trio 12'",
+      "category": "Som Automotivo",
+      "priority": "Média",
+      "targetPrice": 300,
+      "status": "Monitorando",
+      "notes": "",
+      "offers": [
+        {
+          "id": "offer-1795367810537-qxmy5",
+          "store": "KaBuM! (LDSmobile)",
+          "price": 579,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "",
+          "shipping": "A calcular",
+          "url": "https://www.kabum.com.br/produto/232177/caixa-de-som-amplificada-mondial-cm-400-bluetooth-400w-rms-alto-falante-12-bivolt-preto-e-vermelho",
+          "foundAt": "2026-11-22T17:16:50.537Z",
+          "notes": "Caixa De Som Amplificada Mondial Cm-400, Bluetooth, 400W RMS, Alto Falante 12\", Bivolt, Preto e Vermelho — Vendedor: LDSmobile"
+        },
+        {
+          "id": "offer-1795367810537-zgi52",
+          "store": "KaBuM! (WEBCONTINENTAL MARKETPLACE)",
+          "price": 1979.9,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "",
+          "shipping": "A calcular",
+          "url": "https://www.kabum.com.br/produto/1070455/caixa-de-som-amplificada-philco-woofer-duplo-12-pcxe27000-bivolt",
+          "foundAt": "2026-11-22T17:16:50.537Z",
+          "notes": "Caixa De Som Amplificada Philco Woofer Duplo 12 PCxe27000 Bivolt — Vendedor: WEBCONTINENTAL MARKETPLACE"
+        },
+        {
+          "id": "offer-1795367881642-yt9z8",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 318.24,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "1% de volta na loja toda",
+          "shipping": "Consultar no site",
+          "url": "https://www.zoom.com.br/lead?oid=1373952020&channel=86&index=12&experiencevariant=cro-12-2&searchterm=Caixa%20de%20som%20trio%2012%27%20automotivo",
+          "foundAt": "2026-11-22T17:18:01.642Z",
+          "notes": "Caixa de Som Automotivo Selada Trio 2x 12 polegadas 50L material sinté"
+        },
+        {
+          "id": "offer-1795367881642-qpkms",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 467.25,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "1% de volta na loja toda",
+          "shipping": "Consultar no site",
+          "url": "https://www.zoom.com.br/lead?oid=1582476347&channel=86&index=2&experiencevariant=cro-12-2&searchterm=Caixa%20de%20som%20trio%2012%27%20automotivo",
+          "foundAt": "2026-11-22T17:18:01.642Z",
+          "notes": "Caixa Trio Som Carro Automotivo Detoner Completa Sub 12 Pol"
+        },
+        {
+          "id": "offer-1795367881642-ar1sg",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 544.54,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "1% de volta na loja toda",
+          "shipping": "Consultar no site",
+          "url": "https://www.zoom.com.br/lead?oid=1582475557&channel=86&index=4&experiencevariant=cro-12-2&searchterm=Caixa%20de%20som%20trio%2012%27%20automotivo",
+          "foundAt": "2026-11-22T17:18:01.642Z",
+          "notes": "Caixa Trio Carro Som Automotivo Sub Bomber Detoner 12 Pol"
+        },
+        {
+          "id": "offer-1795367881642-u2epd",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 588.56,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "1% de volta na loja toda",
+          "shipping": "Consultar no site",
+          "url": "https://www.zoom.com.br/lead?oid=1572136829&channel=86&index=2&experiencevariant=cro-12-2&searchterm=Caixa%20de%20som%20trio%2012%27%20automotivo",
+          "foundAt": "2026-11-22T17:18:01.642Z",
+          "notes": "Caixa Trio Som Automotivo Sub Bomber Detoner 12 Pol Amarelo"
+        }
+      ],
+      "priceHistory": [
+        {
+          "date": "2026-11-22T17:16:50.537Z",
+          "store": "KaBuM! (LDSmobile)",
+          "price": 579,
+          "note": "Busca automática ao criar item"
+        },
+        {
+          "date": "2026-11-22T17:18:01.642Z",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 318.24,
+          "note": "Busca automática de ofertas"
+        }
+      ]
+    },
+    {
+      "id": "item-1795367367765-445ux",
+      "name": "SSD 480GB",
+      "category": "Hardware",
+      "priority": "Média",
+      "targetPrice": 350,
+      "status": "Monitorando",
+      "notes": "",
+      "offers": [
+        {
+          "id": "offer-1795367369056-gldrn",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 357.88,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "1% de volta na loja toda",
+          "shipping": "Consultar no site",
+          "url": "https://www.zoom.com.br/lead?oid=1370772239&channel=86&index=11&experiencevariant=cro-12-2&searchterm=SSD%20480GB",
+          "foundAt": "2026-11-22T17:09:29.056Z",
+          "notes": "Hd Ssd 480gb Easy Memory - Kingston, 480GB"
+        },
+        {
+          "id": "offer-1795367369056-9065f",
+          "store": "KaBuM! (SGMAX TECNOLOGIA E COMERCIO)",
+          "price": 385.31,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "",
+          "shipping": "A calcular",
+          "url": "https://www.kabum.com.br/produto/903750/ssd-480gb-2-5-sata-3-560mbs-leit-520mbs-grav-sgm480st-sgmax",
+          "foundAt": "2026-11-22T17:12:05.736Z",
+          "notes": "SSD 480GB 2.5 Sata 3 560mbs Leit 520mbs Grav Sgm480st — Vendedor: SGMAX TECNOLOGIA E COMERCIO"
+        },
+        {
+          "id": "offer-1795367369056-2sc91",
+          "store": "KaBuM! (TERABYTE)",
+          "price": 444.99,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "",
+          "shipping": "A calcular",
+          "url": "https://www.kabum.com.br/produto/1088219/ssd-spectrum-warp-480gb-sata-iii-leitura-500mbs-e-gravacao-470mbs-st-sd-wrs480g",
+          "foundAt": "2026-11-22T17:12:05.736Z",
+          "notes": "SSD Spectrum Warp, 480GB, Sata Iii, Leitura 500mbs E Gravação 470mbs, St-sd-wrs480g — Vendedor: TERABYTE"
+        },
+        {
+          "id": "offer-1795367369056-qna8p",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 459.08,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "1% de volta na loja toda",
+          "shipping": "Consultar no site",
+          "url": "https://www.zoom.com.br/lead?oid=1374138024&channel=86&index=2&experiencevariant=cro-12-2&searchterm=SSD%20480GB",
+          "foundAt": "2026-11-22T17:09:29.056Z",
+          "notes": "Ssd 480gb a400 - Kingston, 480GB"
+        },
+        {
+          "id": "offer-1795367369056-9q9wt",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 459.08,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "1% de volta na loja toda",
+          "shipping": "Consultar no site",
+          "url": "https://www.zoom.com.br/lead?oid=1374151984&channel=86&index=3&experiencevariant=cro-12-2&searchterm=SSD%20480GB",
+          "foundAt": "2026-11-22T17:09:29.056Z",
+          "notes": "SSD 480GB Kingston A400, 480GB"
+        },
+        {
+          "id": "offer-1795367369056-z7epv",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 459.08,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "1% de volta na loja toda",
+          "shipping": "Consultar no site",
+          "url": "https://www.zoom.com.br/lead?oid=1372654854&channel=86&index=4&experiencevariant=cro-12-2&searchterm=SSD%20480GB",
+          "foundAt": "2026-11-22T17:09:29.056Z",
+          "notes": "SSD sólido 480GB A400 - Kingston, 480GB"
+        },
+        {
+          "id": "offer-1795367515875-qnz1f",
+          "store": "KaBuM! (TERABYTE)",
+          "price": 538.34,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "",
+          "shipping": "A calcular",
+          "url": "https://www.kabum.com.br/produto/174032/ssd-kingston-480gb-a400-sata-leitura-500mb-s-e-gravacao-450mb-s-sa400s37-480g",
+          "foundAt": "2026-11-22T17:12:05.736Z",
+          "notes": "SSD Kingston 480GB A400, SATA, Leitura 500MB/s e Gravação 450MB/s - SA400S37/480G — Vendedor: TERABYTE"
+        },
+        {
+          "id": "offer-1795367515875-ph1fo",
+          "store": "KaBuM! (direto)",
+          "price": 549.99,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "",
+          "shipping": "A calcular",
+          "url": "https://www.kabum.com.br/produto/105106/ssd-rise-mode-gamer-line-480gb-sata-iii-leitura-530mb-s-gravacao-520mb-s-preto-rm-ssd-480",
+          "foundAt": "2026-11-22T17:12:05.736Z",
+          "notes": "SSD Rise Mode Gamer Line, 480GB, 2.5\", SATA III, Leitura: 530 MB/s, Gravação: 520 MB/s, Preto - RM-SSD-480 — Vendedor: KaBuM!"
+        }
+      ],
+      "priceHistory": [
+        {
+          "date": "2026-11-22T17:09:29.056Z",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 357.88,
+          "note": "Busca automática ao criar item"
+        },
+        {
+          "date": "2026-11-22T17:11:55.875Z",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 357.88,
+          "note": "Busca automática de ofertas"
+        },
+        {
+          "date": "2026-11-22T17:12:05.736Z",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 357.88,
+          "note": "Busca automática de ofertas"
+        }
+      ]
+    },
+    {
+      "id": "item-1795366985764-d6oy9",
+      "name": "SSD 240GB",
+      "category": "Hardware",
+      "priority": "Alta",
+      "targetPrice": 200,
+      "status": "Monitorando",
+      "notes": "",
+      "offers": [
+        {
+          "id": "offer-1795366986340-b6xd2",
+          "store": "KaBuM! (TERABYTE)",
+          "price": 219.99,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "",
+          "shipping": "A calcular",
+          "url": "https://www.kabum.com.br/produto/1088218/ssd-spectrum-warp-240gb-sata-iii-leitura-500mbs-e-gravacao-400mbs-st-sd-wrs240g",
+          "foundAt": "2026-11-22T17:11:56.214Z",
+          "notes": "SSD Spectrum Warp, 240GB, Sata Iii, Leitura 500mbs E Gravação 400mbs, St-sd-wrs240g — Vendedor: TERABYTE"
+        },
+        {
+          "id": "offer-1795366986340-33ngt",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 274.89,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "1% de volta na loja toda",
+          "shipping": "Consultar no site",
+          "url": "https://www.zoom.com.br/lead?oid=1530776756&channel=86&index=4&experiencevariant=cro-12-2&searchterm=SSD%20240GB",
+          "foundAt": "2026-11-22T17:03:06.340Z",
+          "notes": "Ssd 240gb kingston a400"
+        },
+        {
+          "id": "offer-1795366986340-8ipl6",
+          "store": "KaBuM! (direto)",
+          "price": 284.99,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "",
+          "shipping": "A calcular",
+          "url": "https://www.kabum.com.br/produto/105105/ssd-rise-mode-gamer-line-240gb-sata-iii-leitura-530mb-s-gravacao-520mb-s-preto-rm-ssd-240",
+          "foundAt": "2026-11-22T17:11:56.214Z",
+          "notes": "SSD Rise Mode Gamer Line, 240GB, 2.5\", SATA III, Leitura: 530 MB/s, Gravação: 520 MB/s, Preto - RM-SSD-240 — Vendedor: KaBuM!"
+        },
+        {
+          "id": "offer-1795366986340-4fgod",
+          "store": "KaBuM! (TERABYTE)",
+          "price": 304.99,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "",
+          "shipping": "A calcular",
+          "url": "https://www.kabum.com.br/produto/578726/hd-ssd-240gb-2-5-sata-400mb-s-master-drive",
+          "foundAt": "2026-11-22T17:11:56.214Z",
+          "notes": "SSD Masterdrive, 240GB, Sata Iii, Leitura 430mb/s E Gravação 400mb/s, M601 — Vendedor: TERABYTE"
+        },
+        {
+          "id": "offer-1795366986340-k0t5p",
+          "store": "KaBuM! (TERABYTE)",
+          "price": 310.49,
+          "originalPrice": 344.99,
+          "coupon": "",
+          "cashback": "",
+          "shipping": "A calcular",
+          "url": "https://www.kabum.com.br/produto/202655/ssd-adata-su650-240gb-leitura-520-mb-s-gravacao-450mb-s-asu650ss-240gt-r",
+          "foundAt": "2026-11-22T17:11:56.214Z",
+          "notes": "SSD Adata Su650 240GB, Leitura 520 MB/s, Gravação 450MB/s - Asu650ss-240gt-r — Vendedor: TERABYTE"
+        },
+        {
+          "id": "offer-1795366986340-bistk",
+          "store": "Magazine Luiza (via Zoom)",
+          "price": 315.66,
+          "originalPrice": null,
+          "coupon": "",
+          "cashback": "1% de volta na loja toda",
+          "shipping": "Consultar no site",
+          "url": "https://www.zoom.com.br/lead?oid=1399335370&channel=86&index=16&experiencevariant=cro-12-2&searchterm=SSD%20240GB",
+          "foundAt": "2026-11-22T17:03:06.340Z",
+          "notes": "Hd Ssd 240Gb Kingston"
+        }
+      ],
+      "priceHistory": [
+        {
+          "date": "2026-11-22T17:03:06.340Z",
+          "store": "KaBuM! (TERABYTE)",
+          "price": 219.99,
+          "note": "Busca automática ao criar item"
+        },
+        {
+          "date": "2026-11-22T17:11:56.214Z",
+          "store": "KaBuM! (TERABYTE)",
+          "price": 219.99,
+          "note": "Busca automática de ofertas"
+        }
+      ]
+    }
+  ],
+  "history": [
+    {
+      "id": "hist-1795367881642-1gr8b",
+      "timestamp": "2026-11-22T17:18:01.642Z",
+      "action": "Ofertas atualizadas",
+      "itemName": "Caixa de som trio 12'",
+      "details": "4 ofertas encontradas (KaBuM!, Zoom); melhor: R$ 318,24"
+    },
+    {
+      "id": "hist-1795367810537-92l4z",
+      "timestamp": "2026-11-22T17:16:50.537Z",
+      "action": "Busca automática",
+      "itemName": "Caixa de som trio 12'",
+      "details": "2 ofertas encontradas (KaBuM!, Zoom); melhor: R$ 579,00"
+    },
+    {
+      "id": "hist-1795367809794-at34t",
+      "timestamp": "2026-11-22T17:16:49.794Z",
+      "action": "Item adicionado",
+      "itemName": "Caixa de som trio 12'",
+      "details": "Meta: R$ 300,00"
+    },
+    {
+      "id": "hist-1795367792695-fu4wp",
+      "timestamp": "2026-11-22T17:16:32.695Z",
+      "action": "Item removido",
+      "itemName": "Air fryer",
+      "details": "Excluído pelo usuário"
+    },
+    {
+      "id": "hist-1795367777089-fjb4d",
+      "timestamp": "2026-11-22T17:16:17.089Z",
+      "action": "Ofertas atualizadas",
+      "itemName": "Air fryer",
+      "details": "4 ofertas encontradas (KaBuM!, Zoom); melhor: R$ 189,90"
+    },
+    {
+      "id": "hist-1795367775658-d6hyz",
+      "timestamp": "2026-11-22T17:16:15.658Z",
+      "action": "Item atualizado",
+      "itemName": "Air fryer",
+      "details": "Meta: R$ 150,00 | Status: Monitorando"
+    },
+    {
+      "id": "hist-1795367772330-sqg6c",
+      "timestamp": "2026-11-22T17:16:12.330Z",
+      "action": "Ofertas atualizadas",
+      "itemName": "Airfryer",
+      "details": "1 ofertas encontradas (KaBuM!, Zoom); melhor: R$ 369,90"
+    },
+    {
+      "id": "hist-1795367765842-but6h",
+      "timestamp": "2026-11-22T17:16:05.842Z",
+      "action": "Busca automática",
+      "itemName": "Airfryer",
+      "details": "1 ofertas encontradas (KaBuM!, Zoom); melhor: R$ 369,90"
+    },
+    {
+      "id": "hist-1795367765091-wcdbs",
+      "timestamp": "2026-11-22T17:16:05.091Z",
+      "action": "Item adicionado",
+      "itemName": "Airfryer",
+      "details": "Meta: R$ 150,00"
+    },
+    {
+      "id": "hist-1795367745047-wvp55",
+      "timestamp": "2026-11-22T17:15:45.047Z",
+      "action": "Item removido",
+      "itemName": "copo colorido",
+      "details": "Excluído pelo usuário"
+    },
+    {
+      "id": "hist-1795367736633-8hbf7",
+      "timestamp": "2026-11-22T17:15:36.633Z",
+      "action": "Ofertas atualizadas",
+      "itemName": "copo colorido",
+      "details": "3 ofertas encontradas (KaBuM!, Zoom); melhor: R$ 36,71"
+    },
+    {
+      "id": "hist-1795367735586-xco38",
+      "timestamp": "2026-11-22T17:15:35.586Z",
+      "action": "Busca automática",
+      "itemName": "copo colorido",
+      "details": "3 ofertas encontradas (KaBuM!, Zoom); melhor: R$ 36,71"
+    },
+    {
+      "id": "hist-1795367734609-i863p",
+      "timestamp": "2026-11-22T17:15:34.609Z",
+      "action": "Item adicionado",
+      "itemName": "copo colorido",
+      "details": "Meta: R$ 10,00"
+    },
+    {
+      "id": "hist-1795367720124-b8odh",
+      "timestamp": "2026-11-22T17:15:20.124Z",
+      "action": "Item removido",
+      "itemName": "jogo panela ceramica",
+      "details": "Excluído pelo usuário"
+    },
+    {
+      "id": "hist-1795367669389-3897k",
+      "timestamp": "2026-11-22T17:14:29.389Z",
+      "action": "Ofertas atualizadas",
+      "itemName": "jogo panela ceramica",
+      "details": "1 ofertas encontradas (KaBuM!, Zoom); melhor: R$ 911,04"
+    },
+    {
+      "id": "hist-1795367666984-kyf67",
+      "timestamp": "2026-11-22T17:14:26.984Z",
+      "action": "Item atualizado",
+      "itemName": "jogo panela ceramica",
+      "details": "Meta: R$ 500,00 | Status: Monitorando"
+    },
+    {
+      "id": "hist-1795367621628-4eibl",
+      "timestamp": "2026-11-22T17:13:41.628Z",
+      "action": "Ofertas atualizadas",
+      "itemName": "kit panela ceramica",
+      "details": "Nenhuma oferta exata encontrada em KaBuM!, Zoom"
+    },
+    {
+      "id": "hist-1795367619753-dt82d",
+      "timestamp": "2026-11-22T17:13:39.753Z",
+      "action": "Busca automática",
+      "itemName": "kit panela ceramica",
+      "details": "Nenhuma oferta exata encontrada em KaBuM!, Zoom"
+    },
+    {
+      "id": "hist-1795367618882-z2qyn",
+      "timestamp": "2026-11-22T17:13:38.882Z",
+      "action": "Item adicionado",
+      "itemName": "kit panela ceramica",
+      "details": "Meta: R$ 500,00"
+    },
+    {
+      "id": "hist-1795367525736-l2nuz",
+      "timestamp": "2026-11-22T17:12:05.736Z",
+      "action": "Ofertas atualizadas",
+      "itemName": "SSD 480GB",
+      "details": "4 ofertas encontradas (KaBuM!, Zoom); melhor: R$ 357,88"
+    },
+    {
+      "id": "hist-1795367516214-ai97h",
+      "timestamp": "2026-11-22T17:11:56.214Z",
+      "action": "Ofertas atualizadas",
+      "itemName": "SSD 240GB",
+      "details": "4 ofertas encontradas (Zoom, KaBuM!); melhor: R$ 219,99"
+    },
+    {
+      "id": "hist-1795367515875-14mmb",
+      "timestamp": "2026-11-22T17:11:55.875Z",
+      "action": "Ofertas atualizadas",
+      "itemName": "SSD 480GB",
+      "details": "4 ofertas encontradas (KaBuM!, Zoom); melhor: R$ 357,88"
+    },
+    {
+      "id": "hist-1795367369056-mcw0h",
+      "timestamp": "2026-11-22T17:09:29.056Z",
+      "action": "Busca automática",
+      "itemName": "SSD 480GB",
+      "details": "6 ofertas encontradas (KaBuM!, Zoom); melhor: R$ 357,88"
+    },
+    {
+      "id": "hist-1795367367765-49rfc",
+      "timestamp": "2026-11-22T17:09:27.765Z",
+      "action": "Item adicionado",
+      "itemName": "SSD 480GB",
+      "details": "Meta: R$ 350,00"
+    },
+    {
+      "id": "hist-1795366986340-5y6ky",
+      "timestamp": "2026-11-22T17:03:06.340Z",
+      "action": "Busca automática",
+      "itemName": "SSD 240GB",
+      "details": "6 ofertas encontradas (KaBuM!, Zoom); melhor: R$ 219,99"
+    },
+    {
+      "id": "hist-1795366985764-msi4t",
+      "timestamp": "2026-11-22T17:03:05.764Z",
+      "action": "Item adicionado",
+      "itemName": "SSD 240GB",
+      "details": "Meta: R$ 200,00"
+    },
+    {
+      "id": "hist-1795366974292-b01u3",
+      "timestamp": "2026-11-22T17:02:54.292Z",
+      "action": "Item removido",
+      "itemName": "Caixa de som TRIO 12'",
+      "details": "Excluído pelo usuário"
+    },
+    {
+      "id": "hist-1795366973179-hybkf",
+      "timestamp": "2026-11-22T17:02:53.179Z",
+      "action": "Item removido",
+      "itemName": "SSD 120GB SATA 2.5\"",
+      "details": "Excluído pelo usuário"
+    },
+    {
+      "id": "hist-1795366972139-3f1ho",
+      "timestamp": "2026-11-22T17:02:52.139Z",
+      "action": "Item removido",
+      "itemName": "Arvore de natal 210",
+      "details": "Excluído pelo usuário"
+    },
+    {
+      "id": "hist-1795366971095-n2myz",
+      "timestamp": "2026-11-22T17:02:51.095Z",
+      "action": "Item removido",
+      "itemName": "PRIMER",
+      "details": "Excluído pelo usuário"
+    },
+    {
+      "id": "hist-1795366969281-op2tt",
+      "timestamp": "2026-11-22T17:02:49.281Z",
+      "action": "Item removido",
+      "itemName": "oleo extraordinario elseve",
+      "details": "Excluído pelo usuário"
+    },
+    {
+      "id": "hist-1795366968141-fkifa",
+      "timestamp": "2026-11-22T17:02:48.141Z",
+      "action": "Item removido",
+      "itemName": "SSD 480GB SATA 2.5\"",
+      "details": "Excluído pelo usuário"
+    },
+    {
+      "id": "hist-1795366966244-t2euz",
+      "timestamp": "2026-11-22T17:02:46.244Z",
+      "action": "Item removido",
+      "itemName": "SSD 240GB SATA 2.5\"",
+      "details": "Excluído pelo usuário"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+services:
+  blackfriday-tracker:
+    build: .
+    container_name: blackfriday-tracker
+    ports:
+      - "8080:8080"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8080
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
