@@ -629,15 +629,20 @@
       }
 
       const sourcesLabel = (data.sources || []).join(", ") || "lojas";
+      const errorsList = Array.isArray(data.errors) ? data.errors : [];
+      const errNote = errorsList.length > 0 ? ` | Avisos: ${errorsList.join("; ")}` : "";
       addHistory(
         auto ? "Busca automática" : "Ofertas atualizadas",
         item.name,
         found.length > 0
-          ? `${found.length} ofertas encontradas (${sourcesLabel}); melhor: ${formatBRL(best.price)}`
-          : `Nenhuma oferta exata encontrada em ${sourcesLabel}`
+          ? `${found.length} ofertas encontradas (${sourcesLabel}); melhor: ${formatBRL(best.price)}${errNote}`
+          : `Nenhuma oferta exata encontrada em ${sourcesLabel}${errNote}`
       );
       await saveData();
       render();
+      if (errorsList.length > 0 && found.length === 0) {
+        setSyncBadge(false, "Loja bloqueou consulta na nuvem (veja Histórico)");
+      }
       return found.length;
     } catch {
       setSyncBadge(false, "Erro ao consultar lojas");
