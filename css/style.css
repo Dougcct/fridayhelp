@@ -600,42 +600,6 @@ input:focus, select:focus, textarea:focus {
 
 .price-history-box {
   margin-top: auto;
-}
-
-.empty-state {
-  grid-column: 1 / -1;
-}
-
-.offers-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.85rem;
-}
-
-.offers-table th,
-.offers-table td {
-  text-align: left;
-  padding: 8px 10px;
-  border-bottom: 1px solid var(--border);
-}
-
-.offers-table th {
-  color: var(--muted);
-  font-weight: 600;
-  font-size: 0.78rem;
-}
-
-.offers-table a {
-  color: var(--info);
-  text-decoration: none;
-}
-
-.offers-table a:hover {
-  text-decoration: underline;
-}
-
-.price-history-box {
-  margin-top: 12px;
   padding: 10px 12px;
   background: rgba(11, 15, 23, 0.55);
   border: 1px dashed var(--border);
@@ -677,6 +641,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .empty-state {
+  grid-column: 1 / -1;
   text-align: center;
   padding: 40px 20px;
   background: var(--surface);

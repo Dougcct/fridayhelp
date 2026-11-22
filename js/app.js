@@ -100,9 +100,7 @@
     itemsList: document.getElementById("itemsList"),
     historyList: document.getElementById("historyList"),
     itemModal: document.getElementById("itemModal"),
-    itemForm: document.getElementById("itemForm"),
-    offerModal: document.getElementById("offerModal"),
-    offerForm: document.getElementById("offerForm")
+    itemForm: document.getElementById("itemForm")
   };
 
   function escapeHtml(value) {
@@ -492,16 +490,6 @@
     el.itemModal.showModal();
   }
 
-  function openOfferModal(itemId) {
-    const item = state.items.find((i) => i.id === itemId);
-    if (!item) return;
-    document.getElementById("offerModalTitle").textContent = `Nova Oferta: ${item.name}`;
-    document.getElementById("offerItemId").value = itemId;
-    el.offerForm.reset();
-    document.getElementById("offerItemId").value = itemId;
-    el.offerModal.showModal();
-  }
-
   // Eventos de abas
   document.querySelectorAll(".tab-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -544,7 +532,6 @@
       item.offers = item.offers || [];
       item.priceHistory = item.priceHistory || [];
 
-      let added = 0;
       for (const raw of found) {
         const existing = item.offers.find((o) => o.url === raw.url);
         if (existing) {
@@ -564,7 +551,6 @@
             foundAt: now,
             notes: raw.notes || ""
           });
-          added += 1;
         }
       }
 
@@ -643,52 +629,6 @@
     }
   });
 
-  // Salvar Oferta
-  el.offerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const itemId = document.getElementById("offerItemId").value;
-    const item = state.items.find((i) => i.id === itemId);
-    if (!item) return;
-
-    const price = parseFloat(document.getElementById("offerPrice").value);
-    const originalPriceVal = parseFloat(document.getElementById("offerOriginalPrice").value);
-    const store = document.getElementById("offerStore").value.trim();
-    const now = new Date().toISOString();
-
-    const offer = {
-      id: uid("offer"),
-      store,
-      price,
-      originalPrice: Number.isFinite(originalPriceVal) && originalPriceVal > 0 ? originalPriceVal : null,
-      coupon: document.getElementById("offerCoupon").value.trim(),
-      cashback: document.getElementById("offerCashback").value.trim(),
-      shipping: document.getElementById("offerShipping").value.trim(),
-      url: document.getElementById("offerUrl").value.trim(),
-      foundAt: now,
-      notes: document.getElementById("offerNotes").value.trim()
-    };
-
-    item.offers = item.offers || [];
-    item.offers.push(offer);
-
-    item.priceHistory = item.priceHistory || [];
-    item.priceHistory.push({
-      date: now,
-      store,
-      price,
-      note: offer.coupon ? `Cupom ${offer.coupon}` : offer.notes || "Oferta registrada"
-    });
-
-    if (price <= item.targetPrice && item.status === "Monitorando") {
-      item.status = "Meta atingida";
-    }
-
-    addHistory("Oferta registrada", item.name, `${store}: ${formatBRL(price)}`);
-    el.offerModal.close();
-    await saveData();
-    render();
-  });
-
   // Delegação de ações nos cards
   el.itemsList.addEventListener("click", async (e) => {
     const btn = e.target.closest("[data-action]");
@@ -704,8 +644,6 @@
       btn.disabled = true;
       await fetchAndAttachOffers(item, { auto: false });
       btn.disabled = false;
-    } else if (action === "add-offer") {
-      openOfferModal(itemId);
     } else if (action === "edit-item") {
       openItemModal(item);
     } else if (action === "delete-item") {

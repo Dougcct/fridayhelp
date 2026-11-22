@@ -1,7 +1,8 @@
-"""Servidor local para o Black Friday Tracker.
+"""Servidor local para o Friday Help.
 
-Serve os arquivos estáticos da pasta do projeto e expõe /api/deals
-para ler e persistir alterações diretamente em data/deals.json.
+Serve os arquivos estáticos da pasta do projeto, expõe /api/deals
+para ler e persistir alterações em data/deals.json e /api/search
+para consultar ofertas em lojas nacionais.
 """
 
 from __future__ import annotations
@@ -13,6 +14,7 @@ import os
 import re
 import signal
 import sys
+import time
 import unicodedata
 import urllib.error
 import urllib.parse
@@ -169,10 +171,6 @@ def _score_match(title: str, query: str, category: str = "") -> int:
         return 50 + hits * 10 + cat_hits * 5
 
     return 0
-
-
-def _matches_query(title: str, query: str, category: str = "") -> bool:
-    return _score_match(title, query, category) > 0
 
 
 def _parse_brl_price(raw: str) -> float | None:
@@ -468,8 +466,17 @@ def _search_dafiti(query: str, category: str = "") -> list[dict]:
     return offers[:4]
 
 
+_SEARCH_CACHE: dict[tuple[str, str, int], tuple[float, dict]] = {}
+_SEARCH_CACHE_TTL = 120.0
+
+
 def _search_offers(query: str, category: str = "", max_offers: int = 6) -> dict:
-    """Run store searches in parallel and return deduplicated, price-sorted offers."""
+    """Run store searches in parallel and return deduplicated, price-sorted offers (with 120s cache)."""
+    cache_key = (_normalize_text(query), _normalize_text(category), max_offers)
+    cached = _SEARCH_CACHE.get(cache_key)
+    if cached and (time.monotonic() - cached[0]) < _SEARCH_CACHE_TTL:
+        return cached[1]
+
     providers = [
         ("KaBuM!", _search_kabum),
         ("Carrefour", _search_carrefour),
@@ -508,11 +515,15 @@ def _search_offers(query: str, category: str = "", max_offers: int = 6) -> dict:
         seen.add(key)
         deduped.append(offer)
 
-    return {
+    result = {
         "offers": deduped[:max_offers],
         "sources": sources_ok,
         "errors": errors,
     }
+    if len(_SEARCH_CACHE) >= 64:
+        _SEARCH_CACHE.clear()
+    _SEARCH_CACHE[cache_key] = (time.monotonic(), result)
+    return result
 
 
 class TrackerHandler(SimpleHTTPRequestHandler):
@@ -610,7 +621,7 @@ def main() -> None:
     handler = partial(TrackerHandler, directory=str(BASE_DIR))
     server = ThreadingHTTPServer((host, port), handler)
     url = f"http://{host}:{port}"
-    print(f"Black Friday Tracker rodando em {url}")
+    print(f"Friday Help rodando em {url}")
     print("Pressione Ctrl+C para encerrar.")
 
     if "--no-browser" not in sys.argv:
