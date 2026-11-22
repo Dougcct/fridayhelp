@@ -1,4 +1,5 @@
 .env
+docs/env.pdf
 __pycache__/
 *.py[cod]
 *$py.class
@@ -7,6 +8,7 @@ __pycache__/
 .vscode/
 .DS_Store
 iniciar.bat
+deploy_render.py
 README.md
 compose.yaml
 Dockerfile

@@ -61,3 +61,14 @@ Para que o link de confirmação de e-mail redirecione para o site publicado (e 
 4. Clique em **Save**.
 
 > **Observação sobre o plano Free do Render:** após ~15 minutos sem acessos, o container entra em repouso e leva cerca de 30–50 segundos para responder na primeira requisição seguinte. Os dados dos usuários permanecem salvos normalmente no Supabase.
+
+---
+
+## 5. Disparar Deploy / Reinício pelo Terminal (`deploy_render.py`)
+
+1. No Render, vá em **Settings → Build & Deploy → Deploy Hook** e copie a URL.
+2. Adicione `RENDER_DEPLOY_HOOK=https://api.render.com/deploy/...` no seu arquivo `.env` local (nunca envie o `.env` para o GitHub).
+3. Sempre que quiser acionar um novo deploy/reinício no Render após um `git push`, execute:
+   ```bash
+   python deploy_render.py
+   ```
