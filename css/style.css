@@ -58,13 +58,14 @@ body {
 .brand-badge {
   width: 42px;
   height: 42px;
-  border-radius: 10px;
+  border-radius: 12px;
   background: linear-gradient(135deg, var(--primary), #ea580c);
   color: #0b0f17;
   font-weight: 800;
   display: grid;
   place-items: center;
-  font-size: 1.05rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.28);
 }
 
 .brand h1 {
@@ -168,6 +169,27 @@ body {
   gap: 4px;
 }
 
+.kpi-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kpi-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.kpi-icon-info { background: rgba(56, 189, 248, 0.14); color: var(--info); }
+.kpi-icon-primary { background: rgba(245, 158, 11, 0.14); color: var(--primary); }
+.kpi-icon-success { background: rgba(16, 185, 129, 0.14); color: var(--success); }
+.kpi-icon-accent { background: rgba(167, 139, 250, 0.14); color: #a78bfa; }
+
 .kpi-label {
   font-size: 0.8rem;
   color: var(--muted);
@@ -202,6 +224,9 @@ body {
   font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
 }
 
 .tab-btn.active {
@@ -706,4 +731,102 @@ input:focus, select:focus, textarea:focus {
   justify-content: flex-end;
   gap: 10px;
   margin-top: 18px;
+}
+
+@media (max-width: 680px) {
+  .container {
+    padding: 0 12px;
+  }
+
+  .topbar-inner {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .brand h1 {
+    font-size: 1.05rem;
+  }
+
+  .subtitle {
+    font-size: 0.74rem;
+  }
+
+  .topbar-actions {
+    width: 100%;
+    gap: 6px;
+  }
+
+  .topbar-actions .btn {
+    padding: 7px 10px;
+    font-size: 0.8rem;
+    min-height: 36px;
+  }
+
+  #btnNewItem {
+    margin-left: auto;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 14px 0;
+  }
+
+  .kpi-card {
+    padding: 12px;
+  }
+
+  .kpi-value {
+    font-size: 1.18rem;
+  }
+
+  .filters-bar {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  #filterSearch {
+    grid-column: 1 / -1;
+  }
+
+  input, select, textarea {
+    font-size: 16px;
+    min-height: 40px;
+  }
+
+  .status-select {
+    font-size: 0.84rem;
+    min-height: 34px;
+  }
+
+  .category-pills {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .category-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cat-pill {
+    flex-shrink: 0;
+    padding: 6px 12px;
+  }
+
+  .icon-action-btn,
+  .page-btn {
+    min-width: 34px;
+    height: 34px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal {
+    width: 95%;
+  }
 }

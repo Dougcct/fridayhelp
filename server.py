@@ -350,7 +350,7 @@ def _search_offers(query: str, category: str = "", max_offers: int = 6) -> dict:
 
 def _empty_tracker_data() -> dict:
     return {
-        "meta": {"title": "Black Friday Tracker 2026", "currency": "BRL"},
+        "meta": {"title": "Friday Help", "currency": "BRL"},
         "items": [],
         "history": [],
     }

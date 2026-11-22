@@ -2,7 +2,7 @@
   const STORAGE_KEY = "blackfriday_tracker_v1";
 
   const FALLBACK_DATA = {
-    meta: { title: "Black Friday Tracker", updatedAt: new Date().toISOString(), currency: "BRL" },
+    meta: { title: "Friday Help", updatedAt: new Date().toISOString(), currency: "BRL" },
     items: [],
     history: []
   };
