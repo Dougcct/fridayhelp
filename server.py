@@ -303,10 +303,100 @@ def _search_zoom(query: str, category: str = "") -> list[dict]:
     return offers[:4]
 
 
+def _search_carrefour(query: str, category: str = "") -> list[dict]:
+    """Query Carrefour Brasil and return direct /produto/ offers."""
+    search_q = _build_search_query(query, category)
+    url = f"https://www.carrefour.com.br/busca/{urllib.parse.quote(search_q)}"
+    html_text = _fetch_html(url)
+    parts = html_text.split('data-testid="search-product-card"')
+    offers: list[dict] = []
+
+    for idx in range(len(parts) - 1):
+        before = parts[idx][-500:]
+        after = parts[idx + 1][:2500]
+        href_m = re.search(r'href="(/produto/[^"]+)"', before)
+        if not href_m:
+            href_m = re.search(r'href="(/produto/[^"]+)"', after)
+        title_m = re.search(r"<h2[^>]*>(.*?)</h2>", after, re.S)
+        price_m = re.search(r"R\$\s*([\d.,]+)", after)
+        if not (href_m and title_m and price_m):
+            continue
+
+        title = re.sub(r"\s+", " ", html_lib.unescape(re.sub(r"<[^>]+>", " ", title_m.group(1)))).strip()
+        score = _score_match(title, query, category)
+        if score <= 0:
+            continue
+
+        price = _parse_brl_price(price_m.group(1))
+        if price is None:
+            continue
+
+        offers.append({
+            "store": "Carrefour",
+            "price": round(price, 2),
+            "originalPrice": None,
+            "coupon": "",
+            "cashback": "",
+            "shipping": "Consultar no site",
+            "url": f"https://www.carrefour.com.br{html_lib.unescape(href_m.group(1))}",
+            "notes": title,
+            "_score": score,
+        })
+
+    offers.sort(key=lambda o: (o["_score"] < 100, o["price"]))
+    for o in offers:
+        o.pop("_score", None)
+    return offers[:4]
+
+
+def _search_kalunga(query: str, category: str = "") -> list[dict]:
+    """Query Kalunga and return direct /prod/ offers."""
+    search_q = _build_search_query(query, category)
+    url = f"https://www.kalunga.com.br/busca/{urllib.parse.quote(search_q)}/1"
+    html_text = _fetch_html(url)
+    parts = html_text.split('class="blocoproduto__link"')
+    offers: list[dict] = []
+
+    for part in parts[1:25]:
+        href_m = re.search(r'href="(/prod/[^"]+)"', part)
+        title_m = re.search(r'<h2 class="blocoproduto__title[^"]*">(.*?)</h2>', part, re.S)
+        price_m = re.search(r'blocoproduto__price"[^>]*>\s*R\$\s*([\d.,]+)', part)
+        if not (href_m and title_m and price_m):
+            continue
+
+        title = re.sub(r"\s+", " ", html_lib.unescape(title_m.group(1))).strip()
+        score = _score_match(title, query, category)
+        if score <= 0:
+            continue
+
+        price = _parse_brl_price(price_m.group(1))
+        if price is None:
+            continue
+
+        offers.append({
+            "store": "Kalunga",
+            "price": round(price, 2),
+            "originalPrice": None,
+            "coupon": "",
+            "cashback": "",
+            "shipping": "A calcular",
+            "url": f"https://www.kalunga.com.br{html_lib.unescape(href_m.group(1))}",
+            "notes": title,
+            "_score": score,
+        })
+
+    offers.sort(key=lambda o: (o["_score"] < 100, o["price"]))
+    for o in offers:
+        o.pop("_score", None)
+    return offers[:4]
+
+
 def _search_offers(query: str, category: str = "", max_offers: int = 6) -> dict:
     """Run store searches in parallel and return deduplicated, price-sorted offers."""
     providers = [
         ("KaBuM!", _search_kabum),
+        ("Carrefour", _search_carrefour),
+        ("Kalunga", _search_kalunga),
         ("Zoom", _search_zoom),
     ]
     all_offers: list[dict] = []
@@ -324,11 +414,11 @@ def _search_offers(query: str, category: str = "", max_offers: int = 6) -> dict:
             except Exception as exc:
                 errors.append(f"{name}: {exc}")
 
-    kabum_offers = [o for o in all_offers if o["store"].startswith("KaBuM!")]
-    zoom_offers = [o for o in all_offers if not o["store"].startswith("KaBuM!")]
+    direct_offers = [o for o in all_offers if "(via Zoom)" not in o["store"] and o["store"] != "Zoom"]
+    zoom_offers = [o for o in all_offers if o not in direct_offers]
 
-    # Prefer 100% verified live KaBuM! offers; only use Zoom as fallback when KaBuM! has < 2 results
-    ordered = sorted(kabum_offers, key=lambda o: o["price"])
+    # Prefer direct store product links (KaBuM!, Carrefour, Kalunga); use Zoom only as fallback when < 2 direct offers
+    ordered = sorted(direct_offers, key=lambda o: o["price"])
     if len(ordered) < 2:
         ordered.extend(sorted(zoom_offers, key=lambda o: o["price"]))
 
