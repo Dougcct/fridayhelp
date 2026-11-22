@@ -81,20 +81,9 @@
 
   let state = structuredClone(FALLBACK_DATA);
   let serverAvailable = false;
-  let authMode = "local";
-  let currentUser = null;
 
   const el = {
     syncStatus: document.getElementById("syncStatus"),
-    userBadge: document.getElementById("userBadge"),
-    btnAuth: document.getElementById("btnAuth"),
-    btnLogout: document.getElementById("btnLogout"),
-    authModal: document.getElementById("authModal"),
-    authForm: document.getElementById("authForm"),
-    authEmail: document.getElementById("authEmail"),
-    authPassword: document.getElementById("authPassword"),
-    authFeedback: document.getElementById("authFeedback"),
-    btnAuthSignup: document.getElementById("btnAuthSignup"),
     kpiTargetTotal: document.getElementById("kpiTargetTotal"),
     kpiItemCount: document.getElementById("kpiItemCount"),
     kpiBestTotal: document.getElementById("kpiBestTotal"),
@@ -158,51 +147,15 @@
     el.syncStatus.className = `sync-pill ${online ? "sync-online" : "sync-offline"}`;
   }
 
-  function updateAuthUI() {
-    if (authMode !== "supabase") {
-      el.userBadge.hidden = true;
-      el.btnAuth.hidden = true;
-      el.btnLogout.hidden = true;
-      return;
-    }
-    if (currentUser) {
-      el.userBadge.textContent = currentUser.email || "Conectado";
-      el.userBadge.hidden = false;
-      el.btnAuth.hidden = true;
-      el.btnLogout.hidden = false;
-    } else {
-      el.userBadge.hidden = true;
-      el.btnAuth.hidden = false;
-      el.btnLogout.hidden = true;
-    }
-  }
-
   async function loadData() {
     if (window.location.protocol.startsWith("http")) {
       try {
-        const authRes = await fetch("/api/auth/status", { cache: "no-store" });
-        if (authRes.ok) {
-          const auth = await authRes.json();
-          authMode = auth.mode || "local";
-          currentUser = auth.user || null;
-          updateAuthUI();
-
-          if (authMode === "supabase" && !currentUser) {
-            serverAvailable = true;
-            state = structuredClone(FALLBACK_DATA);
-            setSyncBadge(false, "Faça login para carregar seus itens");
-            render();
-            el.authModal.showModal();
-            return;
-          }
-        }
-
         const res = await fetch("/api/deals", { cache: "no-store" });
         if (res.ok) {
           state = await res.json();
           serverAvailable = true;
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-          setSyncBadge(true, authMode === "supabase" ? "Sincronizado (Nuvem)" : "Sincronizado com deals.json");
+          setSyncBadge(true, "Sincronizado com deals.json");
           render();
           return;
         }
@@ -237,7 +190,7 @@
           body: JSON.stringify(state)
         });
         if (!res.ok) throw new Error("Erro HTTP");
-        setSyncBadge(true, authMode === "supabase" ? "Salvo na nuvem" : "Salvo em deals.json");
+        setSyncBadge(true, "Salvo em deals.json");
       } catch {
         setSyncBadge(false, "Erro ao salvar no servidor (salvo local)");
       }
@@ -833,58 +786,6 @@
     state.history = [];
     await saveData();
     renderHistory();
-  });
-
-  async function submitAuth(endpoint) {
-    el.authFeedback.textContent = "Aguarde...";
-    try {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: el.authEmail.value.trim(),
-          password: el.authPassword.value
-        })
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        el.authFeedback.textContent = data.error || "Falha na autenticação.";
-        return;
-      }
-      if (data.needsConfirmation) {
-        el.authFeedback.textContent = "Conta criada! Confirme seu e-mail e depois clique em Entrar.";
-        return;
-      }
-      el.authFeedback.textContent = "";
-      el.authModal.close();
-      await loadData();
-    } catch {
-      el.authFeedback.textContent = "Erro de conexão com o servidor.";
-    }
-  }
-
-  el.btnAuth.addEventListener("click", () => {
-    el.authFeedback.textContent = "";
-    el.authModal.showModal();
-  });
-
-  el.authForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    await submitAuth("/api/auth/login");
-  });
-
-  el.btnAuthSignup.addEventListener("click", async () => {
-    await submitAuth("/api/auth/signup");
-  });
-
-  el.btnLogout.addEventListener("click", async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    currentUser = null;
-    state = structuredClone(FALLBACK_DATA);
-    updateAuthUI();
-    setSyncBadge(false, "Sessão encerrada");
-    render();
-    el.authModal.showModal();
   });
 
   loadData();

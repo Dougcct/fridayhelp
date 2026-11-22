@@ -25,15 +25,6 @@
 
       <div class="topbar-actions">
         <span id="syncStatus" class="sync-pill sync-offline" title="Status de persistência">Carregando...</span>
-        <span id="userBadge" class="sync-pill" hidden></span>
-        <button id="btnAuth" class="btn btn-secondary" type="button" hidden>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
-          Entrar
-        </button>
-        <button id="btnLogout" class="btn btn-secondary" type="button" hidden>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-          Sair
-        </button>
         <button id="btnExport" class="btn btn-secondary" type="button" title="Exportar JSON">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
           <span>Exportar</span>
@@ -263,31 +254,6 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-close-modal="offerModal">Cancelar</button>
         <button type="submit" class="btn btn-primary">Adicionar Oferta</button>
-      </div>
-    </form>
-  </dialog>
-
-  <!-- Modal: Login / Cadastro (Supabase) -->
-  <dialog id="authModal" class="modal">
-    <form id="authForm" method="dialog" class="modal-content">
-      <div class="modal-header">
-        <h2 id="authModalTitle">Entrar na sua conta</h2>
-        <button type="button" class="icon-btn" data-close-modal="authModal" aria-label="Fechar">&times;</button>
-      </div>
-      <div class="form-grid">
-        <label class="full">
-          E-mail *
-          <input id="authEmail" type="email" required placeholder="seu@email.com" />
-        </label>
-        <label class="full">
-          Senha (mín. 6 caracteres) *
-          <input id="authPassword" type="password" minlength="6" required placeholder="••••••" />
-        </label>
-      </div>
-      <p id="authFeedback" class="item-notes"></p>
-      <div class="modal-footer">
-        <button id="btnAuthSignup" type="button" class="btn btn-secondary">Criar conta</button>
-        <button type="submit" class="btn btn-primary">Entrar</button>
       </div>
     </form>
   </dialog>

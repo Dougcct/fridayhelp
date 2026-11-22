@@ -1,6 +1,6 @@
 # Changelog
 
-Todas as mudanças relevantes do **Black Friday Tracker** são documentadas neste arquivo.
+Todas as mudanças relevantes do **Friday Help** são documentadas neste arquivo.
 
 O versionamento segue o padrão [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
@@ -8,13 +8,9 @@ O versionamento segue o padrão [Semantic Versioning](https://semver.org/lang/pt
 
 ### Adicionado
 - **Containerização Docker**: `Dockerfile`, `compose.yaml` e `.dockerignore` com `HEALTHCHECK` e encerramento gracioso (`SIGTERM`).
-- **Busca automática de ofertas (`POST /api/search`)**: consulta paralela na **KaBuM!** e no **Zoom**, com priorização de anúncios diretos em estoque na KaBuM!, filtro por relevância, correspondência numérica exata e dicas/exclusões por categoria (`CATEGORY_HINTS`).
-- **Interface em grade (3 cards por linha)**:
-  - Cores distintas por categoria e barra de filtro rápido em pills (`#categoryPills`).
-  - Categorias expandidas, incluindo **Moda & Beleza**, **Som Automotivo**, **Esporte & Lazer**, **Hardware**, entre outras.
-  - Paginação de ofertas por card (máximo de 3 ofertas por página).
-  - Exibição da marca do melhor item em destaque no painel de resumo e barra compacta de ações com ícones (Lupa, Lápis, X).
-- **Modo Nuvem Gratuita (Supabase + Render)**:
-  - Endpoints `/api/auth/status`, `/api/auth/login`, `/api/auth/signup` e `/api/auth/logout` com cookie `HttpOnly`.
-  - Schema SQL com isolamento por usuário via Row Level Security (`supabase/schema.sql`).
-  - Manifesto `render.yaml` e guia `docs/DEPLOY.md` para deploy gratuito no Render.
+- **Busca automática em lojas nacionais (`POST /api/search`)**: consulta paralela em **KaBuM!**, **Carrefour**, **Kalunga**, **Dafiti** e **Zoom (Comparador)**, com separação de termos colados (`ssd240gb`), bloqueio de sistemas inteiros na busca de peças, exclusão de acessórios e filtro de preços fora da curva.
+- **Interface Friday Help (PC e celular)**:
+  - Ícone principal SVG + favicon e ícones nos botões, abas e KPIs.
+  - Grade de 3 cards por linha no desktop e layout responsivo para celular.
+  - Cores distintas por categoria (incluindo **Moda & Beleza**, **Som Automotivo**, **Esporte & Lazer**, **Hardware**) e filtro rápido em pills.
+  - Paginação de ofertas por card (até 3 por página), extração da marca do melhor item e barra de ações compacta com ícones.
