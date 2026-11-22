@@ -462,6 +462,14 @@ class TrackerHandler(SimpleHTTPRequestHandler):
     def do_GET(self) -> None:
         endpoint = self.path.split("?", 1)[0]
 
+        if endpoint == "/api/health":
+            db_ok = None
+            if SUPABASE_ENABLED:
+                status, _ = _supabase_request("GET", "/rest/v1/tracker_data?select=user_id&limit=1")
+                db_ok = status == 200
+            self._send_json(200, {"ok": True, "mode": "supabase" if SUPABASE_ENABLED else "local", "supabase": db_ok})
+            return
+
         if endpoint == "/api/auth/status":
             if not SUPABASE_ENABLED:
                 self._send_json(200, {"mode": "local", "authenticated": True, "user": None})

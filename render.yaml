@@ -3,7 +3,7 @@ services:
     name: blackfriday-tracker
     runtime: docker
     plan: free
-    healthCheckPath: /api/deals
+    healthCheckPath: /api/health
     envVars:
       - key: HOST
         value: 0.0.0.0
